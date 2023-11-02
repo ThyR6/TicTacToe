@@ -1,29 +1,43 @@
 from os import system
 
 class TicTacToe:
-	# 3*i+j+1
+
 	def showGame(self,arr1=None,arr2=None,OX=True):
-		if not OX:
+		if OX:
 			for i in range(3):
 				for j in range(3):
 					if(arr1!=None):
-						if j%3==2: print(arr1[3*i+j],end=" ")
-						else: print(arr1[3*i+j],end=" | ")
+						if j%3==2: print(self.ToOX(3*i+j+1),end=" ")
+						else: print(self.ToOX(3*i+j+1),end=" | ")
 				print("\t\t\t",end="")
 				# if i%3!=2: print("\t\t\t---------",end="")
 				for j in range(3):
 					if(arr2!=None):
-						if j%3==2: print(arr2[3*i+j],end=" ")
-						else: print(arr2[3*i+j],end=" | ")
+						if j%3==2: print(self.ToOX(3*i+j+1),end=" ")
+						else: print(self.ToOX(3*i+j+1),end=" | ")
 				if i%3!=2 and arr2!=None: print("\n---------\t\t\t---------")
 				elif i%3!=2: print("\n---------")
+			return
 		
+		for i in range(3):
+			for j in range(3):
+				if(arr1!=None):
+					if j%3==2: print(arr1[3*i+j],end=" ")
+					else: print(arr1[3*i+j],end=" | ")
+			print("\t\t\t",end="")
+			# if i%3!=2: print("\t\t\t---------",end="")
+			for j in range(3):
+				if(arr2!=None):
+					if j%3==2: print(arr2[3*i+j],end=" ")
+					else: print(arr2[3*i+j],end=" | ")
+			if i%3!=2 and arr2!=None: print("\n---------\t\t\t---------")
+			elif i%3!=2: print("\n---------")
 
 	def ToClassic(self,num):
 		if num>6: return num-6
 		if num<4: return num+6
 		return num
-	
+
 	def Welcome(self):
 		print("*"*100,"\n\tWelcome To ThyR. Han's implementation of TicTacToe.\n","*"*100,sep="",end="\n\n")
 
@@ -74,17 +88,26 @@ class TicTacToe:
 				elif(self.OX in ["B","b","X","x","2"]): self.OX="X"
 				else: self.OX="?"
 				system("cls")
-	
+
 	def Input(self):
+		tmp=0
 		i=0
 		for index,num in enumerate(self.Game):
 			if(num==0):
 				i=index
 				break
-		self.Game[i]=int(input("Which Maneuver You Want To Perform: "))
-		
+		while(1):
+			try:
+				tmp=int(input("Which Maneuver You Want To Perform: "))
+				break
+			except: 
+				pass
+		if(tmp not in self.Game):
+			if(self.Mode=="M"): self.Game[i]=self.ToClassic(tmp)
+			else: self.Game[i]=tmp
+
 	def UpdateStatus(self):
-		pass
+		if(self.Game[8]!=0): self.Status=3
 
 	def StartGame(self):
 		self.Game=[0,0,0,0,0,0,0,0,0]
@@ -98,6 +121,7 @@ class TicTacToe:
 			self.Input()
 			self.UpdateStatus()
 		self.Welcome()
+		self.showGame(self.Game)
 		match self.Status:
 			case 1: print("'X' has Won The Game")
 			case 2: print("'O' has Won The Game")
@@ -108,8 +132,8 @@ class TicTacToe:
 			if (self.Game[i]==index):
 				if(i%2): return "X"
 				return "O"
-			return " "
-			
+		return " "
+	
 
 
 
