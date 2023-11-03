@@ -2,36 +2,39 @@ from os import system
 
 class TicTacToe:
 
-	def showGame(self,arr1=None,arr2=None,OX=True):
-		if OX:
-			for i in range(3):
-				for j in range(3):
-					if(arr1!=None):
-						if j%3==2: print(self.ToOX(3*i+j+1),end=" ")
-						else: print(self.ToOX(3*i+j+1),end=" | ")
-				print("\t\t\t",end="")
-				# if i%3!=2: print("\t\t\t---------",end="")
-				for j in range(3):
-					if(arr2!=None):
-						if j%3==2: print(self.ToOX(3*i+j+1),end=" ")
-						else: print(self.ToOX(3*i+j+1),end=" | ")
-				if i%3!=2 and arr2!=None: print("\n---------\t\t\t---------")
-				elif i%3!=2: print("\n---------")
-			return
-		
-		for i in range(3):
-			for j in range(3):
+	def showGame(self,arr1=None,arr2=None,OX=False):
+		n=int(self.Level)
+		for i in range(n):
+			for j in range(n):
 				if(arr1!=None):
-					if j%3==2: print(arr1[3*i+j],end=" ")
-					else: print(arr1[3*i+j],end=" | ")
+					if j%n==n-1: print(self.ToOX(n*i+j+1),end=" ")
+					else: print(self.ToOX(n*i+j+1),end=" | ")
+				elif OX==True: pass
+				else:
+					if self.Level=="3":
+						if j%n==n-1: print(n*i+j+1,end=" ")
+						else: print(n*i+j+1,end=" | ")
+					else:
+						if j%n==n-1: print(i+1,j+1,end=" ",sep="")
+						else: print(i+1,j+1,end=" | ",sep="")
 			print("\t\t\t",end="")
-			# if i%3!=2: print("\t\t\t---------",end="")
-			for j in range(3):
+
+			for j in range(n):
 				if(arr2!=None):
-					if j%3==2: print(arr2[3*i+j],end=" ")
-					else: print(arr2[3*i+j],end=" | ")
-			if i%3!=2 and arr2!=None: print("\n---------\t\t\t---------")
-			elif i%3!=2: print("\n---------")
+					if j%n==n-1: print(self.ToOX(n*i+j+1),end=" ")
+					else: print(self.ToOX(n*i+j+1),end=" | ")
+				elif OX==True: pass
+				else:
+					if self.Level=="3":
+						if j%n==n-1: print(n*i+j+1,end=" ")
+						else: print(n*i+j+1,end=" | ")
+					else:
+						if j%n==n-1: print(i+1,j+1,end=" ",sep="")
+						else: print(i+1,j+1,end=" | ",sep="")
+
+			if i%n!=n-1:
+				if OX==False and self.Level!="3": print("\n","-----"*n,"\b\b\b\t\t\t","-----"*n,sep="")
+				else: print("\n","----"*n,"\b\b\b   ",sep="")
 
 	def ToClassic(self,num):
 		if num>6: return num-6
@@ -70,15 +73,16 @@ class TicTacToe:
 			if(self.Level not in ["3","4","5","6","7","8","9"]): self.Level="C"
 			system("cls")
 
-		while(self.Mode=="?"):
-			self.Welcome()
-			print("Which Mode Do You Want To Play: ")
-			self.showGame([1,2,3,4,5,6,7,8,9],[7,8,9,4,5,6,1,2,3],OX=False)
-			self.Mode=input("\nA: Classic\t\t\tB: Modern\nEnter Your Choice: ")
-			if(self.Mode in ["A","a","C","c","1"]): self.Mode="C"
-			elif(self.Mode in ["B","b","M","m","2"]): self.Mode="M"
-			else: self.Mode="?"
-			system("cls")
+		if self.Level =="3":
+			while(self.Mode=="?"):
+				self.Welcome()
+				print("Which Mode Do You Want To Play: ")
+				self.showGame()
+				self.Mode=input("\nA: Classic\t\t\tB: Modern\nEnter Your Choice: ")
+				if(self.Mode in ["A","a","C","c","1"]): self.Mode="C"
+				elif(self.Mode in ["B","b","M","m","2"]): self.Mode="M"
+				else: self.Mode="?"
+				system("cls")
 
 		if(self.P2=="B"):
 			while(self.OX=="?"):
@@ -107,6 +111,12 @@ class TicTacToe:
 			else: self.Game[i]=tmp
 
 	def UpdateStatus(self):
+		self.G=[self.Game[1::2],self.Game[0::2]]
+		for P in range(2):
+			for i in range(3):
+				if all(3*i+j in self.G[P] for j in range(1,4)): self.Status=P+1
+				if all(i+j in self.G[P] for j in range(1,9,3)): self.Status=P+1
+				if all(i in self.G[P] for i in [1,5,9]) or all(i in self.G[P] for i in [3,5,7]): self.Status=P+1
 		if(self.Game[8]!=0): self.Status=3
 
 	def StartGame(self):
@@ -116,16 +126,16 @@ class TicTacToe:
 		self.GetOpts()
 		while(self.Status==0):
 			self.Welcome()
-			self.showGame(self.Game)
+			self.showGame(self.Game,OX=True)
 			print("\n")
 			self.Input()
 			self.UpdateStatus()
 		self.Welcome()
-		self.showGame(self.Game)
+		self.showGame(self.Game,OX=True)
 		match self.Status:
-			case 1: print("'X' has Won The Game")
-			case 2: print("'O' has Won The Game")
-			case 3: print("The Game Has Ended In Draw")
+			case 1: print("\n\n'X' has Won The Game")
+			case 2: print("\n\n'O' has Won The Game")
+			case 3: print("\n\nThe Game Has Ended In Draw")
 
 	def ToOX(self,index):
 		for i in range(9):
