@@ -1,4 +1,6 @@
 .vscode/*
 TicTac/*
+__pycache__/*
 desktop.ini
 tempCodeRunnerFile.py
+AI.py
