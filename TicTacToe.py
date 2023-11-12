@@ -1,3 +1,4 @@
+from msvcrt import getch
 from os import system
 import numpy as np
 
@@ -34,7 +35,13 @@ class TicTacToe:
 		return num
 
 	def Welcome(self):
-		print("*"*100,"\n\tWelcome To ThyR. Han's implementation of TicTacToe.\n","*"*100,sep="",end="\n\n")
+		print(r"""					+============================================================+
+					|    _____  _         _____              _____               |
+					|   |_   _|(_)  ___  |_   _|__ _   ___  |_   _|___    ___    |
+					|     | |  | | / __|   | | / _` | / __|   | | / _ \  / _ \   |
+					|     | |  | || (__    | || (_| || (__    | || (_) ||  __/   |
+					|     |_|  |_| \___|   |_| \__,_| \___|   |_| \___/  \___|   |
+					+============================================================+""", sep="",end="\n\n")
 
 	def GetOpts(self):
 		self.P2="?"
@@ -42,30 +49,58 @@ class TicTacToe:
 		self.OX="?"
 		while(self.P2=="?"):
 			self.Welcome()
-			self.P2=input("Which Game Do You Want To Play: \nA: Two Player\nB: Against AI\nC: Online\nEnter Your Choice: ")
-			if(self.P2 in ["A","a","1"]): self.P2="A"
-			elif(self.P2 in ["B","b","2"]): self.P2="B"
-			elif(self.P2 in ["C","c","3"]): self.P2="C"
+			print(r"""
+			+==========================================================================+			+==================+
+			|    _____                      ____   _                                   |			|       _     _    |
+			|   |_   _|__      __ ___      |  _ \ | |  __ _  _   _   ___  _ __  ___    |			|      / \   (_)   |
+			|     | |  \ \ /\ / // _ \     | |_) || | / _` || | | | / _ \| '__|/ __|   |			|     / _ \  | |   |
+			|     | |   \ V  V /| (_) |    |  __/ | || (_| || |_| ||  __/| |   \__ \   |			|    / ___ \ | |   |
+			|     |_|    \_/\_/  \___/     |_|    |_| \__,_| \__, | \___||_|   |___/   |			|   /_/   \_\|_|   |
+			|    ~~~~~~~                                     |___/                     |			|   ~~~~~~~~~      |
+			+==========================================================================+			+==================+
+			""")
+			self.P2=str(getch(),encoding="utf-8")
+			if(self.P2 in ["T","t"]): self.P2="A"
+			elif(self.P2 in ["A","a"]): self.P2="B"
+			# elif(self.P2 in ["C","c","3"]): self.P2="C"
 			else: self.P2="?"
 			system("cls")
 
 
 		while(self.Mode=="?"):
 			self.Welcome()
-			print("Which Mode Do You Want To Play: ")
-			self.showGame()
-			self.Mode=input("\nA: Classic\t\t\tB: Modern\nEnter Your Choice: ")
-			if(self.Mode in ["A","a","C","c","1"]): self.Mode="C"
-			elif(self.Mode in ["B","b","M","m","2"]): self.Mode="M"
+			# print("Which Mode Do You Want To Play: ")
+			# self.showGame()
+			print(r"""
+			+==========================================+			+===============================================+
+			|     ____  _                   _          |			|    __  __             _                       |
+			|    / ___|| |  __ _  ___  ___ (_)  ___    |			|   |  \/  |  ___    __| |  ___  _ __  _ __     |
+			|   | |    | | / _` |/ __|/ __|| | / __|   |			|   | |\/| | / _ \  / _` | / _ \| '__|| '_ \    |
+			|   | |___ | || (_| |\__ \\__ \| || (__    |			|   | |  | || (_) || (_| ||  __/| |   | | | |   |
+			|    \____||_| \__,_||___/|___/|_| \___|   |			|   |_|  |_| \___/  \__,_| \___||_|   |_| |_|   |
+			|   ~~~~~~~                                |			|   ~~~~~~~~                                    |
+			+==========================================+			+===============================================+
+	  		""")
+			self.Mode=str(getch(),encoding="utf-8")
+			if(self.Mode in ["C","c"]): self.Mode="C"
+			elif(self.Mode in ["M","m"]): self.Mode="M"
 			else: self.Mode="?"
 			system("cls")
 
 		if(self.P2=="B"):
 			while(self.OX=="?"):
 				self.Welcome()
-				self.OX=input("Which Symbol Do You Want To Use: \nA: O\nB: X\nEnter Your Choice: ")
-				if(self.OX in ["A","a","O","o","1"]): self.OX="O"
-				elif(self.OX in ["B","b","X","x","2"]): self.OX="X"
+				print(r"""
+						+=========+				+===========+
+						|   ╔═╗   |				|    ═╗ ╦   |
+						|   ║ ║   |				|    ╔╩╦╝   |
+						|   ╚═╝   |				|    ╩ ╚═   |
+						|   ~~~   |				|    ~~~~   |
+						+=========+				+===========+
+		  		""")
+				self.OX=str(getch(),encoding="utf-8")
+				if(self.OX in ["O","o"]): self.OX="O"
+				elif(self.OX in ["X","x"]): self.OX="X"
 				else: self.OX="?"
 				system("cls")
 
@@ -92,7 +127,7 @@ class TicTacToe:
 					break
 				except:
 					pass
-		if(tmp not in self.Game):
+		if(tmp not in self.Game and tmp in range(1,10)):
 			self.Game[i]=tmp
 
 	def _Status(self,GameL): # 	0 -> Ongoing;	1 -> X Wins;	2 -> O Wins;	3 -> Draw;
@@ -113,7 +148,15 @@ class TicTacToe:
 		self.Game=[0,0,0,0,0,0,0,0,0]
 		self.Status=0 # 	0 -> Ongoing;	1 -> X Wins;	2 -> O Wins;	3 -> Draw;
 		system("cls")
-		self.GetOpts()
+		New="?"
+		while(New=="?"):
+			self.ThyR()
+			New=str(getch(),encoding="utf-8")
+			if New in ["N","n"]: New="N"
+			# elif New in ["O","o"]: New="O"
+			else: New="?"
+			system("cls")
+		if(New=="N"): self.GetOpts()
 		while(self.Status==0):
 			system("cls")
 			self.Welcome()
@@ -124,10 +167,22 @@ class TicTacToe:
 		system("cls")
 		self.Welcome()
 		self.showGame(self.Game,OX=True)
-		match self.Status:
-			case 1: print("\n\n'X' has Won The Game")
-			case 2: print("\n\n'O' has Won The Game")
-			case 3: print("\n\nThe Game Has Ended In Draw")
+		if(self.P2=="B"):
+			if(self.OX=="O"):
+				match self.Status:
+					case 1: print("\n\nYou have Lost The Game")
+					case 2: print("\n\nYou have Won The Game")
+					case 3: print("\n\nThe Game Has Ended In Draw")
+			if(self.OX=="X"):
+				match self.Status:
+					case 1: print("\n\nYou have Won The Game")
+					case 2: print("\n\nYou have Lost The Game")
+					case 3: print("\n\nThe Game Has Ended In Draw")
+		else:
+			match self.Status:
+				case 1: print("\n\n'X' has Won The Game")
+				case 2: print("\n\n'O' has Won The Game")
+				case 3: print("\n\nThe Game Has Ended In Draw")
 
 	def ToOX(self,index):
 		for i in range(9):
@@ -191,7 +246,41 @@ class TicTacToe:
 
 		return idx[np.random.randint(0, len(idx))]
 
-
+	def ThyR(self):
+		print(r"""			 _____                                                                                                               _____ 
+			( ___ )                                                                                                             ( ___ )
+			 |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | 
+			 |   |                                                                                                               |   | 
+			 |   |       _________   ___  ___       ___    ___  ________               ___  ___   ________   ________            |   | 
+			 |   |      |\___   ___\|\  \|\  \     |\  \  /  /||\   __  \             |\  \|\  \ |\   __  \ |\   ___  \          |   | 
+			 |   |      \|___ \  \_|\ \  \\\  \    \ \  \/  / /\ \  \|\  \            \ \  \\\  \\ \  \|\  \\ \  \\ \  \         |   | 
+			 |   |           \ \  \  \ \   __  \    \ \    / /  \ \   _  _\            \ \   __  \\ \   __  \\ \  \\ \  \        |   | 
+			 |   |            \ \  \  \ \  \ \  \    \/  /  /    \ \  \\  \|  ___       \ \  \ \  \\ \  \ \  \\ \  \\ \  \       |   | 
+			 |   |             \ \__\  \ \__\ \__\ __/  / /       \ \__\\ _\ |\__\       \ \__\ \__\\ \__\ \__\\ \__\\ \__\      |   | 
+			 |   |              \|__|   \|__|\|__||\___/ /         \|__|\|__|\|__|        \|__|\|__| \|__|\|__| \|__| \|__|      |   | 
+			 |   |                                \|___|/                                                                        |   | 
+			 |   |                                                                                                               |   | 
+			 |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| 
+			(_____)                                                                                                             (_____)""")
+		print(r"""
+						+================================================================+
+						|    _   _                       ____                            |
+						|   | \ | |  ___ __      __     / ___|  __ _  _ __ ___    ___    |
+						|   |  \| | / _ \\ \ /\ / /    | |  _  / _` || '_ ` _ \  / _ \   |
+						|   | |\  ||  __/ \ V  V /     | |_| || (_| || | | | | ||  __/   |
+						|   |_| \_| \___|  \_/\_/       \____| \__,_||_| |_| |_| \___|   |
+						|   ~~~~~~~                                                      |
+						+================================================================+""")
+		print(r"""		
+							+===============================================+
+							|     ___          _    _                       |
+							|    / _ \  _ __  | |_ (_)  ___   _ __   ___    |
+							|   | | | || '_ \ | __|| | / _ \ | '_ \ / __|   |
+							|   | |_| || |_) || |_ | || (_) || | | |\__ \   |
+							|    \___/ | .__/  \__||_| \___/ |_| |_||___/   |
+							|          |_|                                  |
+							|   ~~~~~~~                                     |
+							+===============================================+""")
 
 TicTac = TicTacToe()
 TicTac.StartGame()

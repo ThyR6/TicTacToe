@@ -1,12 +1,6 @@
 # TicTacToe
 The ThyR. Han's Implementation of Tic-Tac-Toe
 
-$ git init
+This is a very simple implementation of the Tic-Tac-Toe game.
 
-$ git add -A
-
-$ git commit -a -m "."
-
-$ git remote add origin https://github.com/ThyR6/TicTacToe.git
-
-$ git push --set-upstream origin main
+It includes	some 
